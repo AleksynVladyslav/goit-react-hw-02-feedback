@@ -1,0 +1,14 @@
+.buttonsWrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: space-evenly;
+}
+.button {
+  width: 100px;
+  padding: 5px;
+  font-size: 16px;
+
+  cursor: pointer;
+
+  text-transform: capitalize;
+}
