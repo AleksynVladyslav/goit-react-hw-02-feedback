@@ -12,16 +12,14 @@ class App extends Component {
     bad: 0,
   };
 
-  onLeaveFeedback = event => {
-    const feedbackType = event.currentTarget.textContent.toLowerCase();
+  onLeaveFeedback = option => {
     this.setState(prevState => ({
-      [feedbackType]: prevState[feedbackType] + 1,
+      [option]: prevState[option] + 1,
     }));
   };
 
   countTotalFeedback() {
-    const total = this.state.good + this.state.neutral + this.state.bad;
-    return total;
+    return Object.values(this.state).reduce((total, option) => total + option);
   }
 
   countPositiveFeedbackPercentage() {
@@ -32,18 +30,6 @@ class App extends Component {
 
   render() {
     const { good, neutral, bad } = this.state;
-    const statisticsContent =
-      good === 0 && neutral === 0 && bad === 0 ? (
-        <Notification message={' No feedback given '} />
-      ) : (
-        <Statistics
-          good={good}
-          neutral={neutral}
-          bad={bad}
-          total={this.countTotalFeedback()}
-          positivePercentage={this.countPositiveFeedbackPercentage()}
-        />
-      );
 
     return (
       <div className={css.app}>
@@ -54,7 +40,19 @@ class App extends Component {
           />
         </Section>
 
-        <Section title={'Statistics'}>{statisticsContent}</Section>
+        <Section title={'Statistics'}>
+          {this.countTotalFeedback() === 0 ? (
+            <Notification message={' No feedback given '} />
+          ) : (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={this.countTotalFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
+            />
+          )}
+        </Section>
       </div>
     );
   }
